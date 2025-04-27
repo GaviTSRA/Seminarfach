@@ -1,6 +1,11 @@
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Klasse die einen 3 dimensionalen Vektor representiert.
+/// Im gegensatz zu Unity's Vector3 nutzt diese Klasse double anstelle von float zum Speichern der Werte.
+/// Dies macht ihn nutzbar für sehr große Werte, ohne Genauigkeit zu verlieren.
+/// </summary>
 [System.Serializable]
 public class Vector3d
 {
@@ -60,5 +65,13 @@ public class Vector3d
     public static bool operator !=(Vector3d a, Vector3d b)
     {
         return !(a == b);
+    }
+
+    public static double Distance(Vector3d a, Vector3d b)
+    {
+        double dx = a.x - b.x;
+        double dy = a.y - b.y;
+        double dz = a.z - b.z;
+        return Math.Sqrt(dx * dx + dy * dy + dz * dz);
     }
 }

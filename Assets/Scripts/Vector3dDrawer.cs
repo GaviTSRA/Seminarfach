@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEditor;
 using System.Globalization;
 
+/// <summary>
+/// Zeichnet ein Feld für einen <see cref="Vector3d"/> im Unity Editor.
+/// </summary>
 [CustomPropertyDrawer(typeof(Vector3d))]
 public class Vector3dDrawer : PropertyDrawer
 {
@@ -31,6 +34,7 @@ public class Vector3dDrawer : PropertyDrawer
 
     private double DrawDoubleField(Rect rect, string label, double currentValue)
     {
+        // Unity unterstützt keine double-Werte in den Standard-Editor-Feldern, daher verwenden wir ein Textfeld
         string input = EditorGUI.DelayedTextField(rect, new GUIContent(label), currentValue.ToString("G17"));
         if (double.TryParse(input, NumberStyles.Float, CultureInfo.InvariantCulture, out double result))
         {
