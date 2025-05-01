@@ -221,6 +221,13 @@ public class NASAWindow : EditorWindow
                             component.radius = (float) radius;
                             component.position = positionData;
                             component.initialVelocity = velocityData;
+
+                            // Fügt das Modell hinzu
+                            UnityEngine.Object model = Resources.Load("Models/" + entry.Key);
+                            GameObject modelObject = (GameObject)Instantiate(model, newObject.transform);
+                            modelObject.GetComponentInChildren<Camera>().enabled = false;
+                            modelObject.GetComponentInChildren<Light>().enabled = false;
+                            modelObject.transform.localScale = Vector3.one * (float)(radius / 2 / Universe.SCALE_FACTOR * Universe.SIZE_MULTIPLIER);
                         }
                         catch (Exception ex)
                         {

@@ -131,8 +131,6 @@ public class CelestialObject : MonoBehaviour
     {
         // Farbe der Umlaufbahn
         Gizmos.color = previewColor;
-        // Kugel für den Körper
-        Gizmos.DrawSphere(transform.position, this.radius / Universe.SCALE_FACTOR * Universe.SIZE_MULTIPLIER);
         // Name des Körpers als Label
         Handles.Label(transform.position + Vector3.up * (radius / Universe.SCALE_FACTOR), gameObject.name);
 

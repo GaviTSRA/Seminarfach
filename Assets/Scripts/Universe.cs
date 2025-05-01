@@ -19,7 +19,7 @@ public class Universe : MonoBehaviour
     // Skalierungsfaktor für die Position der Objekte
     public const long SCALE_FACTOR = 1_000_000_000;
     // Skalierungsfaktor für die Größe der Objekte
-    public const int SIZE_MULTIPLIER = 1_000;
+    public const int SIZE_MULTIPLIER = 100_000;
     // Gravitationskonstante in m^3 kg^-1 s^-2
     public const double GRAVITATIONAL_CONSTANT = 6.6743e-11;
     // Zeitintervall für die Simulation in Sekunden

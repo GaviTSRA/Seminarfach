@@ -46,5 +46,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 0
   radius: 0
-  velocity: {x: 0, y: 0, z: 0}
-  initialVelocity: {x: 0, y: 0, z: 0}
+  position:
+    x: 0
+    y: 0
+    z: 0
+  initialVelocity:
+    x: 0
+    y: 0
+    z: 0
+  previewColor: {r: 1, g: 1, b: 1, a: 1}
+  velocity:
+    x: 0
+    y: 0
+    z: 0
