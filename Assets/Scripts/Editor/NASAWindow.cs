@@ -6,10 +6,10 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Globalization;
-using Transform = UnityEngine.Transform;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Unity.VisualScripting;
+using System.Text.RegularExpressions;
+using Transform = UnityEngine.Transform;
+using Random = System.Random;
 
 /// <summary>
 /// Ein EditorWindow welches Daten von der NASA abruft und daraus Objekte im generiert.
@@ -27,8 +27,9 @@ public class NASAWindow : EditorWindow
     // Data Page
     bool objectData = true;
     bool makeEphem = true;
-    string startDate = "2025-01-01";
-    string stopDate = "2025-01-02";
+    // Manche Objekte haben nach 2018 keine Daten (?)
+    string startDate = "2018-01-01";
+    string stopDate = "2018-01-02";
     readonly string ephemType = "VECTORS";
     Vector3d positionData = new(0, 0, 0);
     Vector3d velocityData = new(0, 0, 0);
@@ -63,6 +64,7 @@ public class NASAWindow : EditorWindow
                 // Verarbeitet die Daten und speichert alle Objekte mit ihrem Name und der ID
                 if (GUILayout.Button("Parse Data"))
                 {
+                    objects.Clear();
                     // Ein Objekt pro Zeile
                     string[] lines = objectsResponse.Split("\n");
 
@@ -223,15 +225,23 @@ public class NASAWindow : EditorWindow
                             component.initialVelocity = velocityData;
 
                             // Fügt das Modell hinzu
-                            UnityEngine.Object model = Resources.Load("Models/" + entry.Key);
-                            GameObject modelObject = (GameObject)Instantiate(model, newObject.transform);
-                            modelObject.GetComponentInChildren<Camera>().enabled = false;
-                            modelObject.GetComponentInChildren<Light>().enabled = false;
-                            modelObject.transform.localScale = Vector3.one * (float)(radius / 2 / Universe.SCALE_FACTOR * Universe.SIZE_MULTIPLIER);
+                            UnityEngine.Object model;
+                            model = Resources.Load("Models/" + entry.Key); 
+                            if (model == null)
+                            {
+                                // Wenn das Modell nicht gefunden wird, wird ein Standardmodell geladen
+                                Random random = new();
+                                string path = "Models/Default" + random.Next(1, 4);
+                                Debug.Log("Using generic model for " + entry.Key + ": " + path);
+                                model = Resources.Load(path);
+                            }
+                            GameObject modelObject = (GameObject) Instantiate(model, newObject.transform);
+                            newObject.transform.localScale = Vector3.one * (float)(radius / 2 / Universe.SCALE_FACTOR * Universe.SIZE_MULTIPLIER);
                         }
                         catch (Exception ex)
                         {
                             // Wenn ein Fehler auftritt, wird dieser in der Konsole ausgegeben
+                            Debug.Log("Failed to create object " + entry.Key);
                             Debug.LogError(ex);
                             continue;
                         }

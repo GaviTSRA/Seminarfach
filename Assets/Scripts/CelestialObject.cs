@@ -44,6 +44,8 @@ public class CelestialObject : MonoBehaviour
     {
         velocity = initialVelocity;
         positions = new();
+        // Aktualisiert die Größe des Körpers, wenn das Programm gestartet wird
+        transform.localScale = Vector3.one * this.radius / Universe.SCALE_FACTOR * Universe.SIZE_MULTIPLIER;
     }
 
     /// <summary>
